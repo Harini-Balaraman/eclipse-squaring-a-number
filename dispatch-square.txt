@@ -1,0 +1,66 @@
+html
+-----
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="getpost" method="get">
+	<input type="text" name="num1" placeholder="num1"><br>
+	<input type="text" name="num2" placeholder="num2"><br>
+	<input type="submit" value="Submit">
+</form>
+</body>
+</html>
+
+java-1
+-------
+
+package getpost;
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+@WebServlet("/getpost")
+public class getpost extends HttpServlet{
+	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
+	{
+		int i=Integer.parseInt(req.getParameter("num1"));
+		int j=Integer.parseInt(req.getParameter("num2"));
+		int c=i+j;
+		req.setAttribute("c", c);
+		RequestDispatcher rd=req.getRequestDispatcher("sq");
+		rd.forward(req, res);
+	}
+
+}
+
+
+java-2
+------
+
+package getpost;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+@WebServlet("/sq")
+public class sqservlet extends HttpServlet{
+	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException
+	{
+		int s=(int)req.getAttribute("c");
+		s=s*s;
+		PrintWriter out=res.getWriter();
+		out.println("square value:"+s);
+	}
+
+}
